@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CLOCK</title>
+		<script>
+			var dist = Math.PI/180; 
+			var numX = 240;
+			var numY = 240;
+			var ap;
+			window.onload = function () {
+				canvas = document.getElementById('canvas');
+				setInterval(time, 1000);
+					
+			}
+			function time() {
+				ctx = canvas.getContext('2d');
+				ctx.clearRect(0,0,400,500);
+				<!-- 그림자 적용 시작 -->
+				ctx.shadowOffsetX = 20;
+				ctx.shadowOffsetY = 20;
+				ctx.shadowColor = "black";
+				ctx.shadowBlur = 5;
+				ctx.fillStyle = "white";
+				ctx.fill();
+				<!-- 그림자 적용 끝. 왜 하트 그림자 색은 여전히 파란색일까? -->
+				<!-- 하트 테두리 그리기 시작 -->
+				ctx.beginPath();
+				ctx.arc(140,130,100,150*Math.PI/180,0, false);
+				ctx.arc(340,130,100,180*Math.PI/180,30*Math.PI/180, false);
+				ctx.lineTo(360,300);
+				ctx.quadraticCurveTo(240,500,120,300);
+				ctx.closePath();
+				var g = ctx.createRadialGradient(140,140,0,70,70,500);
+				g.addColorStop(0,"cyan");
+				g.addColorStop(1,"blue");
+				ctx.fillStyle = g;
+				ctx.fill();	
+			<!-- 하트 테두리 그리기 끝 -->
+//				ctx.fillStyle = 'rgb(255,255,0)';
+//				ctx.beginPath();
+//				ctx.arc(numX, numY, 100, 0, ((Math.PI)/180) * 360, false);
+//				ctx.fill();	
+				dist = Math.PI/180; 
+				//초침
+				ctx.beginPath();
+					ctx.moveTo(numX, numY); 
+					var sec = new Date().getSeconds();
+					var secAng = 360/60 * sec * dist +300;
+					ctx.moveTo(numX, numY);
+					ctx.lineTo(numX+(90*Math.cos(secAng)), numY+(90*Math.sin(secAng)));
+ 					ctx.stroke();
+				ctx.closePath();
+				//분침
+				ctx.beginPath();
+					ctx.moveTo(numX, numY);
+					var min = new Date().getMinutes();
+					var minAng = 360/60 * min * dist +300;
+					ctx.moveTo(numX, numY);
+					ctx.lineTo(numX+(70*Math.cos(minAng)), numY+(70*Math.sin(minAng)));
+					ctx.stroke();
+				ctx.closePath();
+				//시침
+				ctx.beginPath();
+					ctx.moveTo(numX, numY);
+					var hour = new Date().getHours();
+					ap = hour / 2;
+					hour = hour%12;
+					var hourAng = 360/12 * hour * dist +300;
+					ctx.moveTo(numX, numY);
+					ctx.lineTo(numX+(50*Math.cos(hourAng)), numY+(50*Math.sin(hourAng)));
+					ctx.stroke();
+				ctx.closePath();	
+				// 숫자
+				ctx.textAlign = "center";
+				ctx.textBaseline = "middle";
+				ctx.font = "bold 25px sans-serif";
+				ctx.fillStyle = "black";
+				ctx.fillText("1",numX+(110*Math.cos(300 * dist)),numY+(110*Math.sin(300 * dist)));
+				ctx.fillText("2",numX+(110*Math.cos(330 * dist)),numY+(110*Math.sin(330 * dist)));
+				ctx.fillText("3",numX+(110*Math.cos(0 * dist)),numY+(110*Math.sin(0 * dist)));
+				ctx.fillText("4",numX+(110*Math.cos(30 * dist)),numY+(110*Math.sin(30 * dist)));
+				ctx.fillText("5",numX+(110*Math.cos(60 * dist)),numY+(110*Math.sin(60 * dist)));
+				ctx.fillText("6",numX+(110*Math.cos(90 * dist)),numY+(110*Math.sin(90 * dist)));
+				ctx.fillText("7",numX+(110*Math.cos(120 * dist)),numY+(110*Math.sin(120 * dist)));
+				ctx.fillText("8",numX+(110*Math.cos(150 * dist)),numY+(110*Math.sin(150 * dist)));
+				ctx.fillText("9",numX+(110*Math.cos(180 * dist)),numY+(110*Math.sin(180 * dist)));
+				ctx.fillText("10",numX+(110*Math.cos(210 * dist)),numY+(110*Math.sin(210 * dist)));
+				ctx.fillText("11",numX+(110*Math.cos(240 * dist)),numY+(110*Math.sin(240 * dist)));
+				ctx.fillText("12",numX+(110*Math.cos(270 * dist)),numY+(110*Math.sin(270 * dist)));	
+				
+				if(ap = 1){
+					ctx.fillText("PM",165,430);
+				} else {
+					ctx.fillText("AM",165,430);
+				}
+				ctx.fillText(hour+" : ",215,430);
+				ctx.fillText(min+" : ",265,430);
+				ctx.fillText(sec,315,430);
+				
+			}
+		</script>
+	</head>
+	<body>
+		<div id='monitor'>
+			<canvas id='canvas' width='600px' height='500px'></canvas>
+		</div>
+	</body>
+</html>
